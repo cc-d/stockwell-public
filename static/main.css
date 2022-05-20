@@ -1,0 +1,36 @@
+#nav-user {
+    display: inline;
+    margin-right: 8px;
+}
+
+.placeholder-square {
+    height: 100px;
+    width: 100px;
+    background-color: red;
+    display: inline-block;
+}
+
+body {
+    margin: 8px;
+}
+
+div#main-nav-bar {
+    font-size: 16px;
+    margin-top: 15px;
+}
+
+.user-logged-in-home {
+    font-size: 16px;
+    font-weight: 600;
+    display: inline;
+}
+
+.proc-word {
+    display:  inline;
+    text-decoration: line-through;
+}
+
+.single-grid-image {
+    max-width: 400px;
+    display: inline-block;
+}

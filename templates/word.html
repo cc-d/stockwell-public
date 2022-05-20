@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- add (YOU) to reviewer text if logged in user owns the word -->
+{% set reviewer_name = word.reviewer %}
+{% if word.reviewer == session['username'] %}
+    {% set reviewer_name = session['username'] + ' (YOU)' %}
+{% endif %}
+
+<!-- Data displayed at the top of the page -->
+<h1>{{ word.text }}</h1>
+<form action='/word/{{ word.text }}/skip' method='post'>
+    <input type='submit' value='skip'>
+</form>
+<h2>reviewed by: {{ reviewer_name }}
+<h2>status: {{ word.status }}</h2>
+
+<!-- The actual grid is created here -->
+{% if images is defined and images|length > 0 %}
+    <div id='image-grid-wrap'>
+            {% for image in images %}
+            <div class='single-grid-image'>
+                <img class='grid-image-display' src="{{ image.url }}" height=400 width=400>
+                <form class='grid-image-submit' action='/word/{{ word.text }}/select' method='post'>
+                    <input type='hidden' name='url' value="{{ image.url }}">
+                    <input type='submit' value='submit'>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% else %}
+    <h1>google search api returned no images</h1>
+{% endif %}
+
+{% endblock %}

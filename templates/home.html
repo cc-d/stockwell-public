@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3>users login status</h3>
+{% if users is defined %}
+    {% for user in users %}
+
+        {% set user_color = 'red' %}
+        {% if user.logged_in %}
+            {% set user_color = 'green' %}
+        {% endif %}
+
+        <div class='user-logged-in-home' style="color: {{ user_color }};">
+            {{ user.username }}
+        </div>
+
+    {% endfor %}
+{% endif %}
+
+<h3>word stats</h3>
+<ul>
+    <li>Words in JSON file: {{ stats['json_count'] }}</li>
+    <li>Words skipped: {{ stats['skipped'] }}</li>
+    <li>Words associated with images: {{ stats['completed'] }}</li>
+    <li>Words being reviewed: {{ stats['reviewing'] }}</li>
+</ul>
+
+{% if session['username'] is defined %}
+    <h3>my words</h3>
+    <!-- words that have been assigned in the database to this user -->
+    {% for word in words %}
+        {% if word.reviewer == session['username'] %}
+            {% if word.status != 'reviewing' %}
+                <div class='proc-word'>{{ word.text }} ({{ word.status }})</div>
+            {% else %}
+                <a class='home-word' href="/word/{{ word.text }}">{{ word.text }}</a>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+    <h3>all words</h3>
+    <!-- words from the json data file not yet processed -->
+    {% for word in json_data %}
+        {% if word in processed %}
+            <div class='proc-word'>{{ word }}</div>
+        {% else %}
+            <a class='home-word' href="/word/{{ word }}">{{ word }}</a>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+{% endblock %}
+
